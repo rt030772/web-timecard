@@ -25,3 +25,5 @@
 yarn create next-app --typescript
 yarn add @chakra-ui/react @emotion/react@^11 @emotion/styled@^11 framer-motion@^6 @chakra-ui/icons
 yarn dev
+
+dummy
