@@ -20,16 +20,16 @@ function Signin() {
   return (
     <>
       <Flex align="center" justify="center" height={"80vh"}>
-        <Box bg="white" w="sm" p={4} borderRadius="md" shadow="md">
+        <Box bg="white" w="md" p={4} borderRadius="md" shadow="md">
           <Stack spacing={3} align="center" justify="center">
             <FormControl>
-              <FormLabel fontSize={"sm"}>メールアドレス</FormLabel>
-              <Input size={"sm"} borderRadius={"sm"} placeholder='test@sample.com' 
+              <FormLabel >メールアドレス</FormLabel>
+              <Input borderRadius={"md"} placeholder='test@sample.com'
                 value={email} onChange={onChangeEmail}></Input>
             </FormControl>
             <FormControl>
-              <FormLabel fontSize={"sm"}>パスワード</FormLabel>
-              <Input size={"sm"} borderRadius={"sm"} type="password" 
+              <FormLabel >パスワード</FormLabel>
+              <Input borderRadius={"md"} type="password" 
                 value={password} onChange={onChangePassword}></Input>
             </FormControl>
             <Box></Box>

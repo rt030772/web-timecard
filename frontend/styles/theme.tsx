@@ -1,13 +1,19 @@
 import { extendTheme } from "@chakra-ui/react";
 
 const theme = extendTheme({
-  style: {
+  styles: {
     global: {
       body: {
-        backgroundColor: 'gray.100',
+        backgroundColor: 'gray.80',
         color: 'gray.80',
-        fontSize: "mini"   
-      }
+        // fontSize: "md"   
+      },
+      a: {
+        _hover: {
+          textDecoration: 'underline',
+          cursor: "pointer"
+        }
+      },
     }
   },
   colors: {

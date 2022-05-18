@@ -13,13 +13,13 @@ export const Header: FC = memo(() => {
 
   return (
     <>
-      <Flex as="nav" bg="teal" color="gray.50" align="center" justify="space-between" padding={{ base: 3, md: 3 }}>
-        <Flex align="center" as="a" mr={8} _hover={{ cursor: "pointer" }} onClick={onClickHome} >
-          <Heading as="h1" fontSize={{ base: "sm", md: "md" }}>
+      <Flex as="nav" bg="teal" color="gray.50" align="center" justify="space-between" padding={{ base: 5, md: 3 }}>
+        <Flex align="center" as="a" mr={8} onClick={onClickHome} >
+          <Heading as="h1" >
             Web-Timecard
           </Heading>
         </Flex>
-        <Flex align="center" fontSize="xs" display={{ base: "none", md: "flex" }}>
+        <Flex align="center" display={{ base: "none", md: "flex" }}>
           <HStack spacing={5}>
             <Link href="timecard" >Top </Link>
             <Link href="approval" >承認 </Link>
