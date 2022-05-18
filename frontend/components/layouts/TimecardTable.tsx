@@ -34,8 +34,8 @@ export const TimecardTable: FC = memo(() => {
             </Tr>
           </Thead>
           <Tbody>
-            {dateList().map((date) =>
-              <TimecardRow date={date} />
+            {dateList().map((date,index) =>
+              <TimecardRow key={index} date={date} />
             )}
           </Tbody>
         </Table>
