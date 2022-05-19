@@ -3,29 +3,26 @@ import { setMinutes } from "date-fns";
 import { FC, memo, useState } from "react";
 
 type Props = {
-  defaultMinute: number
-  maxMinute?: number
-  date?: Date
-  setDateTime?: any
+  breakMinute: number
+  setBreakMinute: any
+
 }
 
 
-export const WorkMinuteInput: FC<Props> = memo((props) => {
-  const { defaultMinute, maxMinute, date, setDateTime } = props;
+export const BreakMinuteInput: FC<Props> = memo((props) => {
+  const { breakMinute, setBreakMinute } = props;
 
-  const [ minute, setMinute ] = useState<number>(defaultMinute)
   const formatMinute = (minute: number) => minute < 10 ? '0' + minute : minute.toString();
   const parse = (val: string) => Number(val.replace(/^0/, ''))
 
   const onChangeMinute = (minute: string) => {
-    setMinute(parse(minute));
-    setDateTime(setMinutes(date!,parse(minute)))
+    setBreakMinute(parse(minute))
   }
 
 
   return (
     <NumberInput clampValueOnBlur={false} allowMouseWheel onChange={onChangeMinute}
-      fontSize={"sm"} size={"sm"} step={5} value={ formatMinute(minute) }  min={0} max={maxMinute ? maxMinute : 55}>
+      fontSize={"sm"} size={"sm"} step={5} value={ formatMinute(breakMinute) }  min={0} max={300}>
       <NumberInputField />
       <NumberInputStepper>
         <NumberIncrementStepper />

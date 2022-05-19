@@ -12,7 +12,7 @@ function Timecard() {
 
   return (
     <>
-      <Container mt={8} maxW={1280}>
+      <Container mt={8} maxW={{ lg: 1280, md:960, sm: 680}}>
         <TimecardTable></TimecardTable>
       </Container>
     </>

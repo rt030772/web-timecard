@@ -6,16 +6,17 @@ import { WorkMinuteInput } from "./WorkMinuteInput";
 
 type Props = {
   date?: Date,
+  setDateTime?: any
 }
 
 export const WorkTimeSelect: FC<Props> = memo((props) => {
-  const { date } = props;
+  const { date, setDateTime } = props;
   return (
     <>
       <Flex w={"10em"}>
-        <WorkHourInput defaultHour={  date ? getHours(date) : 8 } />
+        <WorkHourInput defaultHour={  date ? getHours(date) : 8 } setDateTime={setDateTime} date={date} />
         <Center mx={1} >:</Center>
-        <WorkMinuteInput defaultMinute={ date ? getMinutes(date) : 60 } />
+        <WorkMinuteInput defaultMinute={ date ? getMinutes(date) : 60 } setDateTime={setDateTime} date={date} />
       </Flex>
     </>
   )
