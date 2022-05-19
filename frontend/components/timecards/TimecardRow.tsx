@@ -19,6 +19,8 @@ export const TimecardRow: FC<Props> = memo((props) => {
   const { date } = props;
   const [hasRemarks, setHasRemarks] = useState<boolean>(false);
 
+  const [breakTime, setBreakTime] = useState<number>(60);
+
   const calcRowColor = () => {
     switch (date.getDay()) {
       case 0: return "red.100";
@@ -27,16 +29,25 @@ export const TimecardRow: FC<Props> = memo((props) => {
     }
   }
 
+  const calcWorkClass = () => {
+    switch (date.getDay()) {
+      case 0:
+      case 6:
+        return "holiday";
+      default: return "office"
+    }
+  }
+
   return (
-      <Tr key={props.date.toString()} bg={calcRowColor()}  >
+    <Tr key={props.date.toString()} bg={calcRowColor()}>
         <Td fontSize={"xs"}>{format(date, 'yyyy/MM/dd (E)', { locale: ja })}
           <IconButton ml={1} size="xs" aria-label='add-button'
             icon={<SmallAddIcon />} />
         </Td>
-        <Td><WorkClassSelect /></Td>
-        <Td><WorkTimeSelect defaultTime={setHours(date,9)} /></Td>
-        <Td><WorkTimeSelect defaultTime={setHours(date,18)} /></Td>
-        <Td p={1} w={"4em"}><WorkMinuteInput defaultMinute={"00"} /></Td>
+      <Td><WorkClassSelect workClass={ calcWorkClass()} /></Td>
+        <Td><WorkTimeSelect date={setHours(date,9)} /></Td>
+        <Td><WorkTimeSelect date={setHours(date,18)} /></Td>
+      <Td p={1} w={"4em"}><WorkMinuteInput defaultMinute={ breakTime } maxMinute={300} /></Td>
         <Td p={0} textAlign="center">8:00</Td>
         <Td p={0} textAlign="center">0:00</Td>
         <Td p={0} textAlign="center"><RemarksPopup hasRemarks={hasRemarks} setHasRemarks={setHasRemarks}/></Td>

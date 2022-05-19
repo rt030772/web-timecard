@@ -1,13 +1,22 @@
 import { Select } from "@chakra-ui/react";
-import { FC, memo } from "react";
+import { ChangeEvent, FC, memo, useState } from "react";
+
+type Props = {
+  workClass: string
+}
 
 
+export const WorkClassSelect: FC<Props> = memo((props) => {
+  const { workClass } = props;
+  
+  const [ wClass, setWClass ] = useState<string>(workClass);
 
-export const WorkClassSelect: FC<any> = memo(() => {
+  const onChangeWorkClass = (e: ChangeEvent<HTMLSelectElement>) => setWClass(e.target.value);
+  
   return (
-    <Select fontSize={"xs"} borderRadius={"md"}  size="sm" w={"12em"} >
+    <Select fontSize={"xs"} borderRadius={"md"} size="sm" w={"12em"} value={ wClass } onChange={onChangeWorkClass} >
       <option value='office'>出社</option>
-      <option value='office'>在宅</option>
+      <option value='remote'>在宅</option>
       <option value='holiday'>休日</option>
       <option value='paid'>有給</option>
       <option value='am-paid'>午前有給</option>

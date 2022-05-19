@@ -59,13 +59,13 @@ function Confgure() {
               <GridItem colSpan={{ base: 2, md: 1 }}>
                 <FormControl>
                   <FormLabel size="sm">開始時間</FormLabel>
-                  <WorkTimeSelect defaultTime='09:00'/>
+                  <WorkTimeSelect />
                 </FormControl>
               </GridItem>
               <GridItem colSpan={{ base: 2, md: 1 }}>
                 <FormControl>
                   <FormLabel size="sm">終了時間</FormLabel>
-                  <WorkTimeSelect defaultTime='18:00' />
+                  <WorkTimeSelect />
                 </FormControl>
               </GridItem>
               <GridItem colSpan={{ base: 2, md: 1 }}>
@@ -77,7 +77,7 @@ function Confgure() {
               <GridItem colSpan={{ base: 2, md: 1 }}>
                 <FormControl>
                   <FormLabel size="sm">休憩時間</FormLabel>
-                  <WorkMinuteInput />
+                  <WorkMinuteInput defaultMinute={60} />
                 </FormControl>
               </GridItem>
               <GridItem colSpan={{ base: 2, md: 1 }}>
