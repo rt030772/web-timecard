@@ -27,3 +27,15 @@ yarn add @chakra-ui/react @emotion/react@^11 @emotion/styled@^11 framer-motion@^
 yarn dev
 
 dummy
+
+
+## 使用技術 
+  - Frontend
+    - next.js
+    - TypeScript
+    - ChakraUI
+
+  - Backend
+    - Ruby
+    - Ruby on Rails
+    - PostgreSQL
