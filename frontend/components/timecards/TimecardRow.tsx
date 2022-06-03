@@ -18,7 +18,6 @@ type Props = {
 
 export const TimecardRow: FC<Props> = memo((props) => {
   const { date } = props;
-  const [hasRemarks, setHasRemarks] = useState<boolean>(false);
 
   const [ startDateTime, setStartDateTime ] = useState<Date>(setHours(date,9))
   const [ endDateTime, setEndDateTime ] = useState<Date>(setHours(date,18))
@@ -75,7 +74,7 @@ export const TimecardRow: FC<Props> = memo((props) => {
         <Td p={1} w={"4em"}><BreakMinuteInput breakMinute={ breakMinute } setBreakMinute={setBreakMinute} /></Td>
       <Td p={0} textAlign="center">{ calcWorkTotal() }</Td>
         <Td p={0} textAlign="center"> { calcExtensionTime() } </Td>
-        <Td p={0} textAlign="center"><RemarksPopup hasRemarks={hasRemarks} setHasRemarks={setHasRemarks}/></Td>
+        <Td p={0} textAlign="center"><RemarksPopup/></Td>
         <Td p={0} textAlign="center"></Td>
         <Td p={0}><Button color="teal.600" size={"sm"}>申請</Button></Td>
       </Tr>

@@ -3,13 +3,11 @@ import { Box, Button, ButtonGroup, FormControl, FormLabel, IconButton, Popover, 
 import { memo, FC, useRef, Dispatch, SetStateAction, useState, ChangeEvent } from 'react'
 
 type Props = {
-  hasRemarks: boolean,
-  setHasRemarks: any,
 }
 
 
 export const RemarksPopup: FC<Props> = memo((props) => {
-  const { hasRemarks, setHasRemarks } = props;
+  const [hasRemarks, setHasRemarks] = useState<boolean>(false);
   const [ remarks, setRemarks] = useState<string>("");
   const { onOpen, onClose, isOpen } = useDisclosure();
   const firstFieldRef = useRef<any>(null)
@@ -20,28 +18,8 @@ export const RemarksPopup: FC<Props> = memo((props) => {
     onClose();
   }
 
+  const onChangeRemarks = (event: ChangeEvent<HTMLTextAreaElement>) => setRemarks(event.target.value); 
 
-  const Form = memo(({ firstFieldRef, onCancel }) => {
-    const onChangeRemarks = (event: ChangeEvent<HTMLTextAreaElement>) => setRemarks(event.target.value); 
-    return (
-      <Stack spacing={4}>
-        <FormControl>
-          <FormLabel>備考</FormLabel>
-          <Textarea id='last-name' ref={firstFieldRef} value={remarks} onChange={onChangeRemarks} />
-        </FormControl>
-        <ButtonGroup display='flex' justifyContent='flex-end'>
-          <Button variant='outline' onClick={onCancel}>
-            Cancel
-          </Button>
-          <Button colorScheme='teal' onClick={onClickRemakrsSave}>
-            Save
-          </Button>
-        </ButtonGroup>
-      </Stack>
-    )
-  })
-  
-  
   return (
     <>
       <Box display={"inline-block"} mr={3} >{ hasRemarks ? "有" : "" }</Box>
@@ -52,9 +30,22 @@ export const RemarksPopup: FC<Props> = memo((props) => {
           <IconButton size='sm' aria-label='remarks-popup' icon={<EditIcon />} />
         </PopoverTrigger>
         <PopoverContent p={5}>
-            <PopoverArrow />
-            <PopoverCloseButton />
-            <Form firstFieldRef={firstFieldRef} onCancel={onClose} />
+          <PopoverArrow />
+          <PopoverCloseButton />
+          <Stack spacing={4}>
+            <FormControl>
+              <FormLabel>備考</FormLabel>
+              <Textarea id='last-name' value={remarks} onChange={onChangeRemarks} />
+            </FormControl>
+            <ButtonGroup display='flex' justifyContent='flex-end'>
+              <Button variant='outline' onClick={onClose}>
+                Cancel
+              </Button>
+              <Button colorScheme='teal' onClick={onClickRemakrsSave}>
+                Save
+              </Button>
+            </ButtonGroup>
+          </Stack>
         </PopoverContent>
       </Popover>
     </>
