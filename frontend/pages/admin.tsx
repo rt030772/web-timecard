@@ -1,7 +1,7 @@
 import { Box, Button, Container, FormControl, FormLabel, Heading, IconButton, Input, ListItem, MenuButton, Select, UnorderedList, VStack } from '@chakra-ui/react'
 import React from 'react';
 
-function Administrator() {
+function Admin() {
   return (
     <>
       <Container>
@@ -14,4 +14,4 @@ function Administrator() {
     </>
   )
 }
-export default Administrator;
+export default Admin;

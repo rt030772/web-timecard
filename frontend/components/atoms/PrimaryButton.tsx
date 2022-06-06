@@ -1,6 +1,11 @@
 import { Button } from '@chakra-ui/react';
-import { Props } from 'framer-motion/types/types';
-import { memo, FC } from 'react'
+import { memo, FC, ReactNode } from 'react'
+
+type Props = {
+  onClick: any;
+  children: ReactNode;
+}
+
 
 export const PrimaryButton: FC<Props> = memo((props) => {
   return (
