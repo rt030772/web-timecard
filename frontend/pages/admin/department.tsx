@@ -21,23 +21,7 @@ function Department() {
   return (
     <>
       <Flex align="center" justify="center" height={"80vh"}>
-        <Box bg="white" w="md" p={4} borderRadius="md" shadow="md">
-          <Stack spacing={3} align="center" justify="center">
-            <FormControl>
-              <FormLabel >メールアドレス</FormLabel>
-              <Input borderRadius={"md"} placeholder='test@sample.com'
-                value={email} onChange={onChangeEmail}></Input>
-            </FormControl>
-            <FormControl>
-              <FormLabel >パスワード</FormLabel>
-              <Input borderRadius={"md"} type="password" 
-                value={password} onChange={onChangePassword}></Input>
-            </FormControl>
-            <Box></Box>
-            <FormControl>
-            </FormControl>
-          </Stack>
-        </Box>
+        <Input  type="password"></Input>
       </Flex>
     </>
   )

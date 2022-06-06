@@ -32,7 +32,7 @@ function Confgure() {
 
   return (
     <>
-      <Container mt={3}>
+      <Container mt={3} maxW={{ lg: 760, md:540, sm: 540}}>
         <Flex>
           <VStack w="full" alignItems="flex-start">
             <Heading size="sm" borderBottom={"solid"}>設定</Heading>

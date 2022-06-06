@@ -57,13 +57,13 @@ function User() {
                 <Td>ON</Td>
                 <Td>OFF</Td>
               </Tr>
-              <Tr>
+              <Tr _hover={{ cursor: "pointer"}} onClick={onOpen}>
                 <Td>123456</Td>
                 <Td>会社 太郎</Td>
                 <Td>OFF</Td>
                 <Td>OFF</Td>
               </Tr>
-              <Tr>
+              <Tr _hover={{ cursor: "pointer"}} onClick={onOpen}>
                 <Td>323232</Td>
                 <Td>組織 三郎</Td>
                 <Td>OFF</Td>

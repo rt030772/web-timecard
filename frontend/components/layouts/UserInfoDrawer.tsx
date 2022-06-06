@@ -65,8 +65,8 @@ export const UserInfoDrawer: FC<Props> = memo((props) => {
 
           <DrawerBody>
             <form onSubmit={formik.handleSubmit}>
-              <Stack spacing='3px'>
-                <FormControl>
+              <Stack spacing='5px'>
+              <FormControl>
                 <FormLabel >社員番号</FormLabel>
                 <Input borderRadius={"md"} name="emplyeeCode" value={formik.values.employeeCode} onChange={formik.handleChange}></Input>
               </FormControl>
