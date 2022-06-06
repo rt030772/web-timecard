@@ -15,9 +15,16 @@ import { Form, useFormik } from 'formik';
 import { UserInfo } from '../../interfaces';
 import { DepartmentSelect } from '../atoms/DepartmentSelect';
 
-export const UserInfoDrawer: FC = memo(() => {
+type Props = {
+  isOpen: boolean,
+  onOpen: any,
+  onClose: any
+}
 
-    const { isOpen, onOpen, onClose } = useDisclosure()
+
+export const UserInfoDrawer: FC<Props> = memo((props) => {
+
+    const { isOpen, onOpen, onClose } = props;
     const firstField = React.useRef()
 
     const initialValues: UserInfo = {
@@ -41,7 +48,7 @@ export const UserInfoDrawer: FC = memo(() => {
   
   return (
     <>
-      <Button leftIcon={<SmallAddIcon />} color="white" bg='teal.400' onClick={onOpen} _hover={{ opacity: 0.8 }}>新規登録</Button>
+      <Button leftIcon={<SmallAddIcon />} color="white" bg='teal.400' size={"sm"} onClick={onOpen} _hover={{ opacity: 0.8 }}>新規登録</Button>
       <Drawer
         isOpen={isOpen}
         placement='right'
