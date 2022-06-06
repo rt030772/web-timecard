@@ -1,4 +1,4 @@
-import { SmallAddIcon, SpinnerIcon } from '@chakra-ui/icons';
+import { MinusIcon, SmallAddIcon, SmallCloseIcon, SpinnerIcon } from '@chakra-ui/icons';
 import { Box, Button, Flex, Heading, HStack, IconButton, Table, TableContainer, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
 import Link from 'next/link';
 import React, { memo, FC, useState, useCallback } from 'react'
@@ -13,11 +13,14 @@ import { RemarksPopup } from './RemarksPopup';
 import { BreakMinuteInput } from '../atoms/BreakMinuteInput';
 
 type Props = {
-    date: Date
+  date: Date
+  setDateList: any;
+  dateList: Array<any>
+  no: number
 }
 
 export const TimecardRow: FC<Props> = memo((props) => {
-  const { date } = props;
+  const { date, setDateList, dateList, no } = props;
 
   const [ startDateTime, setStartDateTime ] = useState<Date>(setHours(date,9))
   const [ endDateTime, setEndDateTime ] = useState<Date>(setHours(date,18))
@@ -62,11 +65,27 @@ export const TimecardRow: FC<Props> = memo((props) => {
     }
   }
 
+  const onClickAdd = () => {
+    const index = dateList.map(map => map.date).lastIndexOf(date);
+    setDateList([...dateList.slice(0, index+1), { date: date, no: no + 1 }, ...dateList.slice(index+1)] )
+  }
+
+  const onClickMinus = (no: number) => {
+    setDateList( dateList.filter((date) => date.date != date && date.no != no ))
+  }
+
+
   return (
     <Tr key={props.date.toString()} bg={calcRowColor()}>
-        <Td fontSize={"xs"}>{format(date, 'yyyy/MM/dd (E)', { locale: ja })}
-          <IconButton ml={1} size="xs" aria-label='add-button'
+      <Td fontSize={"xs"}>
+        {no === 1 ?
+          <IconButton mr={2} size="xs" aria-label='add-button' onClick={onClickAdd} 
             icon={<SmallAddIcon />} />
+          :
+          <IconButton mr={2} size="xs" aria-label='add-button' color={"red"} onClick={ () => onClickMinus(no)}
+            icon={<MinusIcon />} />
+        }
+        { no === 1 ? format(date, 'yyyy/MM/dd (E)', { locale: ja }) : "" } 
         </Td>
       <Td><WorkClassSelect workClass={ calcWorkClass()} /></Td>
         <Td><WorkTimeSelect date={startDateTime} setDateTime={setStartDateTime} /></Td>

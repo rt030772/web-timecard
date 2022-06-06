@@ -2,7 +2,7 @@ import { Box, Button, Container, FormControl, FormLabel, Heading, IconButton, In
 import React from 'react';
 import { AdminMenuDrawer } from '../components/layouts/AdminMenuDrawer';
 
-function Administrator() {
+function Admin() {
   return (
     <>
       <Container>
@@ -16,4 +16,4 @@ function Administrator() {
     </>
   )
 }
-export default Administrator;
+export default Admin;

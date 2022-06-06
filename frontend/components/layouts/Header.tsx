@@ -21,11 +21,11 @@ export const Header: FC = memo(() => {
         </Flex>
         <Flex align="center" display={{ base: "none", md: "flex" }}>
           <HStack spacing={5}>
-            <Link href="timecard" >Top </Link>
-            <Link href="approval" >承認 </Link>
-            <Link href="administorator" >管理者機能 </Link>
-            <Link href="configure" >設定</Link>
-            <Link href="signin">ログアウト</Link>
+            <Link href="/timecard">Top </Link>
+            <Link href="/approval">承認 </Link>
+            <Link href="/admin/user">管理者機能 </Link>
+            <Link href="/configure">設定</Link>
+            <Link href="/signin">ログアウト</Link>
           </HStack>
         </Flex>
       </Flex>
