@@ -1,28 +1,33 @@
 import { SmallAddIcon, SpinnerIcon } from '@chakra-ui/icons';
 import { Box, Button, Flex, Heading, HStack, IconButton, Table, TableContainer, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
 import Link from 'next/link';
-import React, { memo, FC } from 'react'
+import React, { memo, FC, useState } from 'react'
 import { useRouter } from 'next/router';
 import { WorkClassSelect } from '../atoms/WorkClassSelect';
 import { WorkTimeSelect } from '../atoms/WorkTimeSelect';
 import { WorkMinuteInput } from '../atoms/WorkMinuteInput';
-import { startOfMonth, endOfMonth, isAfter, addDays, format, isBefore } from 'date-fns';
+import { startOfMonth, endOfMonth, isAfter, addDays, format, isBefore, setDate, eachDayOfInterval } from 'date-fns';
 import { fsync } from 'fs';
 import { ja } from 'date-fns/locale';
 import { TimecardRow } from '../timecards/TimecardRow';
 
 export const TimecardTable: FC = memo(() => {
 
-  const dateList = () => {
-    const today = new Date();
-    const startDay = startOfMonth(today);
-    const endDay = endOfMonth(today); //subMonthsで月に対して加減ができる
-    let dateList = [];
-    for(let day = startDay;isBefore(day,endDay);day = addDays(day,1)){
-      dateList.push(day);
+  type DateObj = {
+    date: Date
+    no: number
+  } 
+
+  function initDateList(): Array<DateObj> {
+    let dateObjList: Array<DateObj> = [];
+    for (const date of eachDayOfInterval({ start: new Date(2022, 4, 1), end: new Date(2022, 4, 31) })) {
+      dateObjList.push({date:date,no:1})
     }
-    return dateList;
+    return dateObjList;
   }
+
+  const [dateObjList, setDateList] = useState<Array<DateObj>>(initDateList);
+
 
   return (
       <TableContainer>
@@ -34,8 +39,8 @@ export const TimecardTable: FC = memo(() => {
             </Tr>
           </Thead>
           <Tbody>
-            {dateList().map((date,index) =>
-              <TimecardRow key={index} date={date} />
+            {dateObjList.map((dateObj,index) =>
+              <TimecardRow key={index} date={dateObj.date} setDateList={setDateList} dateList={dateObjList} no={dateObj.no} />
             )}
           </Tbody>
         </Table>
