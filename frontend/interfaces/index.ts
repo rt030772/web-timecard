@@ -1,9 +1,9 @@
-export interface UserInfo {
+export interface User {
   employeeCode?: string;
   name?: string;
   email?: string;
   password?: string;
   departmentCode?: number;
   isAdmin: string;
-  isApprover: string;
+  isAuthorizer: string;
 }

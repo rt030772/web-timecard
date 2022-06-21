@@ -11,105 +11,111 @@ import { fsync } from 'fs';
 import { ja } from 'date-fns/locale';
 import { TimecardRow } from '../timecards/TimecardRow';
 import { PrimaryButton } from '../atoms/PrimaryButton';
-import { Form, useFormik } from 'formik';
-import { UserInfo } from '../../interfaces';
+import { Field, Form, FormikProvider, useFormik } from 'formik';
+import { User } from '../../interfaces';
 import { DepartmentSelect } from '../atoms/DepartmentSelect';
+import { postUser } from '../../services/api/admin';
+import { useMessage } from '../../hooks/useMessage';
 
 type Props = {
   isOpen: boolean,
   onOpen: any,
-  onClose: any
+  onClose: any,
+  user: User | undefined
 }
 
 
 export const UserInfoDrawer: FC<Props> = memo((props) => {
 
-    const { isOpen, onOpen, onClose } = props;
-    const firstField = React.useRef()
+    const { isOpen, onOpen, onClose, user } = props;
+    const firstField = React.useRef();
+    const { showMessage } = useMessage();
+  
+  // const [initialValues, setInitialValues] = useState<User|undefined>(user);
+    const initialValues: User = {
+      employeeCode: user ? user.employeeCode : "",
+      name: user ? user.name : "",
+      email: user ? user.email : "",
+      password: user ? user.password : "",
+      departmentCode: user ? user.departmentCode : 0,
+      isAdmin: user ? user.isAdmin : "false",
+      isAuthorizer: user ? user.isAuthorizer : "false"
+  }
+  const formik = useFormik({
+    enableReinitialize: true,
+    initialValues: {
+      ...initialValues,
+    },
+    onSubmit: async(values) => {
+      const res = await postUser(values)
+      if (res.status === 200) {
+        const message = user ? "登録に成功しました。" : "更新に成功しました。"
+        showMessage({status:"success",title:message})
+      } else {
+        showMessage({status:"error",title:"処理に失敗しました。"})
+      }
 
-    const initialValues: UserInfo = {
-      employeeCode: undefined,
-      name: undefined,
-      email: undefined,
-      password: undefined,
-      departmentCode: undefined,
-      isAdmin: "false",
-      isApprover: "false"
-    }
-
-    const formik = useFormik({
-     initialValues: {
-       ...initialValues,
-     },
-     onSubmit: values => {
-       alert(JSON.stringify(values, null, 2));
-     },
-   });
+    },
+  });
   
   return (
     <>
       <Button leftIcon={<SmallAddIcon />} color="white" bg='teal.400' size={"sm"} onClick={onOpen} _hover={{ opacity: 0.8 }}>新規登録</Button>
-      <Drawer
-        isOpen={isOpen}
-        placement='right'
-        initialFocusRef={firstField}
-        onClose={onClose}
-        size={"sm"}
-      >
+      <Drawer isOpen={isOpen} placement='right' /* initialFocusRef={firstField} */ onClose={onClose} size={"sm"}>
         <DrawerOverlay />
         <DrawerContent>
           <DrawerCloseButton />
           <DrawerHeader borderBottomWidth='1px'>
-            ユーザー新規作成
+            { user ? "ユーザー編集" : "ユーザー登録"}
           </DrawerHeader>
 
           <DrawerBody>
-            <form onSubmit={formik.handleSubmit}>
-              <Stack spacing='5px'>
-              <FormControl>
-                <FormLabel >社員番号</FormLabel>
-                <Input borderRadius={"md"} name="emplyeeCode" value={formik.values.employeeCode} onChange={formik.handleChange}></Input>
-              </FormControl>
-              <FormControl>
-                <FormLabel >氏名</FormLabel>
-                <Input borderRadius={"md"} name="name" value={formik.values.name} onChange={formik.handleChange}></Input>
-              </FormControl>
-              <FormControl>
-                <FormLabel >メールアドレス</FormLabel>
-                <Input borderRadius={"md"} name="email" value={formik.values.email} onChange={formik.handleChange}></Input>
-              </FormControl>
-              <FormControl>
-                <FormLabel >パスワード</FormLabel>
-                <Input borderRadius={"md"} name="password" type="password" value={formik.values.password} onChange={formik.handleChange}></Input>
-              </FormControl>
-              <FormControl>
-                <FormLabel >所属部署</FormLabel>
-                <DepartmentSelect departmentCode={formik.values.departmentCode} onChange={formik.handleChange} />
-              </FormControl>
-              <FormControl>
-                  <FormLabel size="sm">管理者権限</FormLabel>
-                  <RadioGroup size="sm">
-                    <Stack direction='row'>
-                      <Radio value="true" name="isAdmin">ON</Radio>
-                      <Radio value="false" name="isAdmin">OFF</Radio>
-                    </Stack>
-                  </RadioGroup>
-              </FormControl>
-              <FormControl>
-                  <FormLabel size="sm">承認者権限</FormLabel>
-                  <RadioGroup size="sm">
-                    <Stack direction='row'>
-                      <Radio value="true" name="isApprover">ON</Radio>
-                      <Radio value="false" name="isApprover">OFF</Radio>
-                    </Stack>
-                  </RadioGroup>
-              </FormControl>
-              <Box></Box>
-              </Stack>
-            </form>
-              
-
-
+            <FormikProvider value={formik}>
+                <Stack spacing='5px'>
+                  <Form>
+                  
+                    <FormControl>
+                      <FormLabel >社員番号</FormLabel>
+                      <Input borderRadius={"md"} name="employeeCode" value={formik.values.employeeCode} onChange={formik.handleChange} />
+                    </FormControl>
+                    <FormControl>
+                      <FormLabel >氏名</FormLabel>
+                      <Input borderRadius={"md"} name="name" value={formik.values.name} onChange={formik.handleChange}></Input>
+                    </FormControl>
+                    <FormControl>
+                      <FormLabel >メールアドレス</FormLabel>
+                      <Input borderRadius={"md"} name="email" value={formik.values.email} onChange={formik.handleChange}></Input>
+                    </FormControl>
+                    <FormControl>
+                      <FormLabel >パスワード</FormLabel>
+                      <Input borderRadius={"md"} name="password" type="password" value={formik.values.password} onChange={formik.handleChange}></Input>
+                    </FormControl>
+                    <FormControl>
+                      <FormLabel >所属部署</FormLabel>
+                      <DepartmentSelect departmentCode={formik.values.departmentCode} onChange={formik.handleChange} />
+                    </FormControl>
+                    <FormControl>
+                      <FormLabel size="sm">管理者権限</FormLabel>
+                      <RadioGroup size="sm" onChange={formik.handleChange} value={formik.values.isAdmin}>
+                        <Stack direction='row'>
+                          <Field as={Radio} name="isAdmin" value="true">ON</Field>
+                          <Field as={Radio} name="isAdmin" value="false">OFF</Field>
+                        </Stack>
+                      </RadioGroup>
+                    </FormControl>
+                    <FormControl>
+                      <FormLabel size="sm">承認者権限</FormLabel>
+                      <RadioGroup size="sm" value={formik.values.isAuthorizer} onChange={formik.handleChange}>
+                        <Stack direction='row'>
+                          <Field as={Radio} name="isAuthorizer" value="true">ON</Field>
+                          <Field as={Radio} name="isAuthorizer" value="false">OFF</Field>
+                        </Stack>
+                      </RadioGroup>
+                    </FormControl>
+                    <Box></Box>
+                  </Form>
+                </Stack>
+            </FormikProvider>
           </DrawerBody>
 
           <DrawerFooter borderTopWidth='1px'>

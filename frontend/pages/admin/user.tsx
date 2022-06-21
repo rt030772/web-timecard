@@ -1,43 +1,50 @@
 import { Box, Button, Container, Flex, FormControl, FormLabel, Heading, Input, MenuButton, Radio, RadioGroup, Stack, Table, TableCaption, TableContainer, Tbody, Td, Tfoot, Th, Thead, Tr, useDisclosure, VStack } from '@chakra-ui/react'
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import { Form, useFormik } from 'formik';
 import { PrimaryButton } from '../../components/atoms/PrimaryButton';
 import { DepartmentSelect } from '../../components/atoms/DepartmentSelect';
 import { UserInfoDrawer } from '../../components/layouts/UserInfoDrawer';
-import { UserInfo } from '../../interfaces';
-
+import { User } from '../../interfaces';
+import { fetchUsers } from '../../services/api/admin';
 
 
 function User() {
   const router = useRouter();
   const { isOpen, onOpen, onClose } = useDisclosure()
 
-  const initialValues: UserInfo = {
-    employeeCode: undefined,
-    name: undefined,
-    email: undefined,
-    password: undefined,
-    departmentCode: undefined,
-    isAdmin: "false",
-    isApprover: "false"
+  const [users, setUsers] = useState<User[]>([]);
+  const [ targetUser, setTargetUser ] = useState<User | undefined>()
+
+  const handleFetchUsers =  async () => {
+    try {
+      const res = await fetchUsers();
+      setUsers(res.data)
+    } catch (err) {
+      alert("処理に失敗しました。");
+      console.error(err)
+    }
   }
 
-   const formik = useFormik({
-     initialValues: {
-       ...initialValues,
-     },
-     onSubmit: values => {
-       alert(JSON.stringify(values, null, 2));
-     },
-   });
+
+  useEffect(() => {
+    handleFetchUsers(),
+    []
+  })
+
+  
+  const setDrawer = (user: User | null) => {
+    setTargetUser(user ? user : undefined)
+    onOpen()
+  }
+  
   
   return (
     <>
       <Container mt={"10px"}  maxW={{ lg: 760, md:540, sm: 540}}>
         <Box alignItems="right" display='flex'>
-          <UserInfoDrawer isOpen={isOpen} onOpen={onOpen} onClose={onClose} />
+          <UserInfoDrawer user={targetUser} isOpen={isOpen} onOpen={()=>setDrawer(null)} onClose={onClose} />
         </Box>
 
         <TableContainer>
@@ -51,7 +58,7 @@ function User() {
               </Tr>
             </Thead>
             <Tbody>
-              <Tr _hover={{ cursor: "pointer"}} onClick={onOpen}>
+              {/* <Tr _hover={{ cursor: "pointer"}} onClick={onOpen}>
                 <Td>654321</Td>
                 <Td>企業 一郎</Td>
                 <Td>ON</Td>
@@ -68,7 +75,19 @@ function User() {
                 <Td>組織 三郎</Td>
                 <Td>OFF</Td>
                 <Td>OFF</Td>
-              </Tr>
+              </Tr> */}
+              {
+                users?.map((user: User, index: number) => {
+                  return (
+                    <Tr key={index} _hover={{ cursor: "pointer" }} onClick={() => setDrawer(user)}>
+                      <Td>{user.employeeCode}</Td>
+                      <Td>{user.name}</Td>
+                      <Td>{user.isAuthorizer}</Td>
+                      <Td>{user.isAdmin}</Td>
+                    </Tr>
+                  )
+                })
+              }
             </Tbody>
           </Table>
         </TableContainer>

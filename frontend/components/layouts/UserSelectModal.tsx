@@ -3,13 +3,18 @@ import {
   Box, Flex, Heading, HStack, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter,
   ModalBody, ModalCloseButton } from '@chakra-ui/react';
 import Link from 'next/link';
-import React, { memo, FC } from 'react'
+import React, { memo, FC, useState, useEffect } from 'react'
 import { useRouter } from 'next/router';
+import { fetchUsers } from '../../services/api/admin'
+import { User } from '../../interfaces/index'
+
 
 type Props = {
   isOpen :boolean,
   onClose : () => void,
 }
+
+
 
 export const UserSelectModal: FC<Props> = memo((props) => {
 

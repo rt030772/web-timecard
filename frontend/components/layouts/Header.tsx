@@ -8,7 +8,7 @@ export const Header: FC = memo(() => {
 
   const router  = useRouter();
   const onClickHome = () => {
-    router.push("timecard");
+    router.push("/timecard");
   }
 
   return (
