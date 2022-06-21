@@ -1,9 +1,6 @@
 package com.timecard.backend.models;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class User {
@@ -16,8 +13,8 @@ public class User {
     private String    email;
     private String    password;
     private int       departmentCode;
-    private boolean   isAdmin;
-    private boolean   isApprover;
+    private String isAdmin;
+    private String isAuthorizer;
 
 
   public String getEmployeeCode() {
@@ -60,19 +57,16 @@ public class User {
     this.departmentCode = departmentCode;
   }
 
-  public boolean isAdmin() {
+  public String getIsAdmin() {
     return isAdmin;
   }
 
-  public void setIsAdmin(boolean admin) {
-    isAdmin = admin;
+  public void setIsAdmin(String isAdmin) { this.isAdmin = isAdmin; }
+
+  public String getIsAuthorizer() {
+    return isAuthorizer;
   }
 
-  public boolean isApprover() {
-    return isApprover;
-  }
+  public void setIsAuthorizer(String isAuthorizer) { this.isAuthorizer = isAuthorizer; }
 
-  public void setIsApprover(boolean approver) {
-    isApprover = approver;
-  }
 }
