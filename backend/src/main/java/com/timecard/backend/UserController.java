@@ -16,15 +16,22 @@ public class UserController {
 
 
     @PostMapping(path="",consumes= MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody User addNewUser (@RequestBody User user) {
-        userRepository.save(user);
-        return user;
+    public @ResponseBody User addNewUser(@RequestBody User requestUser) {
+        userRepository.save(requestUser);
+        return requestUser;
     }
 
     @GetMapping(path="")
     public @ResponseBody Iterable<User> getUserList() {
 
         return userRepository.findAll();
+    }
+
+    @DeleteMapping(path= "/{employeeCode}")
+    public @ResponseBody String deleteUser(@PathVariable String employeeCode){
+        User user = userRepository.findByEmployeeCode(employeeCode);
+        userRepository.delete(user);
+        return "success";
     }
 
 

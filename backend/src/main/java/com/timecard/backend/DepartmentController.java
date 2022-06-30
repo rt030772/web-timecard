@@ -4,6 +4,7 @@ import com.timecard.backend.models.Department;
 import com.timecard.backend.models.User;
 import com.timecard.backend.repositories.DepartmentRepository;
 import com.timecard.backend.repositories.UserRepository;
+import com.timecard.backend.services.DepartmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,8 +12,14 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1/department")
 public class DepartmentController {
 
-    @Autowired
     private DepartmentRepository departmentRepository;
+    private final DepartmentService departmentService;
+
+    @Autowired
+    public DepartmentController(DepartmentService departmentService, DepartmentRepository departmentRepository){
+        this.departmentService = departmentService;
+        this.departmentRepository = departmentRepository;
+    }
 
 
     @PostMapping(path="")
@@ -31,6 +38,7 @@ public class DepartmentController {
     public @ResponseBody Iterable<Department> getDepartmentList() {
       return departmentRepository.findAll();
     }
+
 
 
 }

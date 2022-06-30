@@ -69,4 +69,9 @@ public class User {
 
   public void setIsAuthorizer(String isAuthorizer) { this.isAuthorizer = isAuthorizer; }
 
+  public String toString(){
+    return String.format("User[employeeCode=%s, name=%s, email=%s, departmentCode=%d, isAdmin=%d, isAuthorizer=%s]",
+            employeeCode, name, email, departmentCode, isAdmin, isAuthorizer);
+  }
+
 }

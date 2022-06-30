@@ -4,6 +4,6 @@ import com.timecard.backend.models.Department;
 import com.timecard.backend.models.User;
 import org.springframework.data.repository.CrudRepository;
 
-public interface DepartmentRepository extends CrudRepository<Department, Integer> {
+public interface DepartmentRepository extends CrudRepository<Department , Integer> {
 
 }
