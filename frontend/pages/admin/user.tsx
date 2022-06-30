@@ -53,37 +53,21 @@ function User() {
               <Tr>
                 <Th>社員番号</Th>
                 <Th>名前</Th>
+                <Th>所属部署</Th>
                 <Th>承認権限</Th>
                 <Th>管理者権限</Th>
               </Tr>
             </Thead>
             <Tbody>
-              {/* <Tr _hover={{ cursor: "pointer"}} onClick={onOpen}>
-                <Td>654321</Td>
-                <Td>企業 一郎</Td>
-                <Td>ON</Td>
-                <Td>OFF</Td>
-              </Tr>
-              <Tr _hover={{ cursor: "pointer"}} onClick={onOpen}>
-                <Td>123456</Td>
-                <Td>会社 太郎</Td>
-                <Td>OFF</Td>
-                <Td>OFF</Td>
-              </Tr>
-              <Tr _hover={{ cursor: "pointer"}} onClick={onOpen}>
-                <Td>323232</Td>
-                <Td>組織 三郎</Td>
-                <Td>OFF</Td>
-                <Td>OFF</Td>
-              </Tr> */}
               {
                 users?.map((user: User, index: number) => {
                   return (
                     <Tr key={index} _hover={{ cursor: "pointer" }} onClick={() => setDrawer(user)}>
                       <Td>{user.employeeCode}</Td>
                       <Td>{user.name}</Td>
-                      <Td>{user.isAuthorizer}</Td>
-                      <Td>{user.isAdmin}</Td>
+                      <Td>{user.departmentCode}</Td>
+                      <Td>{user.isAuthorizer === 'true' ? '○' : '×' }</Td>
+                      <Td>{user.isAdmin === 'true' ? '○' : '×' }</Td>
                     </Tr>
                   )
                 })

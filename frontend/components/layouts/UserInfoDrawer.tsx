@@ -1,4 +1,4 @@
-import { AddIcon, SmallAddIcon, SpinnerIcon } from '@chakra-ui/icons';
+import { AddIcon, DeleteIcon, SmallAddIcon, SpinnerIcon } from '@chakra-ui/icons';
 import { Box, Button, Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerFooter, DrawerHeader, DrawerOverlay, Flex, FormControl, FormLabel, Heading, HStack, IconButton, Input, Radio, RadioGroup, Stack, Table, TableContainer, Tbody, Td, Th, Thead, Tr, useDisclosure } from '@chakra-ui/react';
 import Link from 'next/link';
 import React, { memo, FC, useState } from 'react'
@@ -14,8 +14,9 @@ import { PrimaryButton } from '../atoms/PrimaryButton';
 import { Field, Form, FormikProvider, useFormik } from 'formik';
 import { User } from '../../interfaces';
 import { DepartmentSelect } from '../atoms/DepartmentSelect';
-import { postUser } from '../../services/api/admin';
+import { deleteUser, postUser } from '../../services/api/admin';
 import { useMessage } from '../../hooks/useMessage';
+import { ConfirmationDialog } from '../atoms/ConfirmationDialog';
 
 type Props = {
   isOpen: boolean,
@@ -30,8 +31,8 @@ export const UserInfoDrawer: FC<Props> = memo((props) => {
     const { isOpen, onOpen, onClose, user } = props;
     const firstField = React.useRef();
     const { showMessage } = useMessage();
-  
-  // const [initialValues, setInitialValues] = useState<User|undefined>(user);
+    const { isOpen: isOpenDialog, onOpen: onOpenDialog, onClose: onCloseDialog } = useDisclosure();
+
     const initialValues: User = {
       employeeCode: user ? user.employeeCode : "",
       name: user ? user.name : "",
@@ -54,10 +55,21 @@ export const UserInfoDrawer: FC<Props> = memo((props) => {
       } else {
         showMessage({status:"error",title:"処理に失敗しました。"})
       }
-
     },
   });
   
+  const handleDeleteUser =  async (employeeCode: string) => {
+    try {
+      const res = await deleteUser(employeeCode);
+      onCloseDialog();
+      // TODO 画面の一覧からユーザーを削除する処理が必要
+    } catch (err) {
+      alert("処理に失敗しました。");
+      console.error(err)
+    }
+  }
+
+
   return (
     <>
       <Button leftIcon={<SmallAddIcon />} color="white" bg='teal.400' size={"sm"} onClick={onOpen} _hover={{ opacity: 0.8 }}>新規登録</Button>
@@ -66,7 +78,17 @@ export const UserInfoDrawer: FC<Props> = memo((props) => {
         <DrawerContent>
           <DrawerCloseButton />
           <DrawerHeader borderBottomWidth='1px'>
-            { user ? "ユーザー編集" : "ユーザー登録"}
+            {user ?
+              <>
+                ユーザー編集
+                <IconButton icon={<DeleteIcon />} aria-label="delete user" ml="3" variant="outline" justifyContent="center" bg={"white"} size={"sm"}
+                 _hover={{ opacity: 0.8 }} onClick={onOpenDialog} />
+                <ConfirmationDialog onOpen={onOpenDialog} onClose={onCloseDialog} isOpen={isOpenDialog} onClick={() => handleDeleteUser(formik.values.employeeCode!)}
+                  title="ユーザー削除" description='ユーザーを削除してよろしいですか？' />
+              </>
+              :
+              "ユーザー登録"
+            }
           </DrawerHeader>
 
           <DrawerBody>

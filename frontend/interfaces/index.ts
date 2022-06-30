@@ -7,3 +7,11 @@ export interface User {
   isAdmin: string;
   isAuthorizer: string;
 }
+
+
+export interface Department {
+  departmentId?: number;
+  parentDepartmentId?: number;
+  name?: string;
+  abbreviation?: string;
+}
