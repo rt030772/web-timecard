@@ -9,4 +9,7 @@ public interface UserRepository extends CrudRepository<User, Integer> {
 
 
     void deleteByEmployeeCode(String employeeCode);
+
+    Iterable<User> findByIsAdmin(String isAdmin);
+    Iterable<User> findByIsAuthorizer(String isAuthorizer);
 }
