@@ -16,7 +16,7 @@ export const deleteUser = (employeeCode: string) => {
 }
 
 
-// ユーザー情報の取得
-// export const fetchUsers = () => {
-//     return client.get("/users");
-
+// 部署情報の取得
+export const fetchDepartments = () => {
+    return client.get("/departments");
+}

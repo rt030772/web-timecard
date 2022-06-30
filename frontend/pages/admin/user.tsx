@@ -65,7 +65,7 @@ function User() {
                     <Tr key={index} _hover={{ cursor: "pointer" }} onClick={() => setDrawer(user)}>
                       <Td>{user.employeeCode}</Td>
                       <Td>{user.name}</Td>
-                      <Td>{user.departmentCode}</Td>
+                      <Td>{user.department?.abbreviation}</Td>
                       <Td>{user.isAuthorizer === 'true' ? '○' : '×' }</Td>
                       <Td>{user.isAdmin === 'true' ? '○' : '×' }</Td>
                     </Tr>

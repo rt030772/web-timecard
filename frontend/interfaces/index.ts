@@ -3,15 +3,16 @@ export interface User {
   name?: string;
   email?: string;
   password?: string;
-  departmentCode?: number;
+  departmentId?: number;
+  department?: Department;
   isAdmin: string;
   isAuthorizer: string;
 }
 
 
 export interface Department {
-  departmentId?: number;
+  id?: number;
   parentDepartmentId?: number;
-  name?: string;
+  departmentName?: string;
   abbreviation?: string;
 }

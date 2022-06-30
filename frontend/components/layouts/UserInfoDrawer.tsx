@@ -38,7 +38,7 @@ export const UserInfoDrawer: FC<Props> = memo((props) => {
       name: user ? user.name : "",
       email: user ? user.email : "",
       password: user ? user.password : "",
-      departmentCode: user ? user.departmentCode : 0,
+      departmentId: user ? user.departmentId : 0,
       isAdmin: user ? user.isAdmin : "false",
       isAuthorizer: user ? user.isAuthorizer : "false"
   }
@@ -47,7 +47,7 @@ export const UserInfoDrawer: FC<Props> = memo((props) => {
     initialValues: {
       ...initialValues,
     },
-    onSubmit: async(values) => {
+    onSubmit: async (values) => {
       const res = await postUser(values)
       if (res.status === 200) {
         const message = user ? "登録に成功しました。" : "更新に成功しました。"
@@ -62,7 +62,11 @@ export const UserInfoDrawer: FC<Props> = memo((props) => {
     try {
       const res = await deleteUser(employeeCode);
       onCloseDialog();
-      // TODO 画面の一覧からユーザーを削除する処理が必要
+      if (res.status === 200) {
+        showMessage({status:"success",title:"削除に成功しました。"})
+      } else {
+        showMessage({status:"error",title:"処理に失敗しました。"})
+      }
     } catch (err) {
       alert("処理に失敗しました。");
       console.error(err)
@@ -114,7 +118,7 @@ export const UserInfoDrawer: FC<Props> = memo((props) => {
                     </FormControl>
                     <FormControl>
                       <FormLabel >所属部署</FormLabel>
-                      <DepartmentSelect departmentCode={formik.values.departmentCode} onChange={formik.handleChange} />
+                      <DepartmentSelect departmentId={formik.values.departmentId} onChange={formik.handleChange} />
                     </FormControl>
                     <FormControl>
                       <FormLabel size="sm">管理者権限</FormLabel>

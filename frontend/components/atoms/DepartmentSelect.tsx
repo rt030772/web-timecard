@@ -1,23 +1,45 @@
 import { Select } from "@chakra-ui/react";
-import { ChangeEvent, FC, memo, useState } from "react";
+import { ChangeEvent, FC, memo, useEffect, useState } from "react";
+import { Department } from "../../interfaces";
+import { fetchDepartments } from "../../services/api/admin";
 
 type Props = {
-  departmentCode: number | undefined;
+  departmentId: number | undefined;
   onChange: any;
 }
 
 
+
+
+
 export const DepartmentSelect: FC<Props> = memo((props) => {
-  const { departmentCode, onChange } = props;
-  
+  const { departmentId, onChange } = props;
+  const [ departments, setDepartments ] = useState<Department[]>([]);
+
+  const handleFetchDepartments =  async () => {
+    try {
+      const res = await fetchDepartments();
+      setDepartments(res.data)
+    } catch (err) {
+      alert("処理に失敗しました。");
+      console.error(err)
+    }
+  }
+
+
+  useEffect(() => {
+    handleFetchDepartments(),
+    []
+  })
+
   return (
-    <Select name="departmentCode" borderRadius={"md"} size="md" w={"20em"} value={departmentCode} onChange={onChange} >
-      <option value="0">無所属</option>
-      <option value="1">西日本システム部 1課</option>
-      <option value="2">西日本システム部 2課</option>
-      <option value="3">西日本システム部 3課</option>
-      <option value="4">西日本システム部 4課</option>
-      <option value="5">ソリューション部</option>
+    <Select name="departmentId" borderRadius={"md"} size="md" w={"20em"} value={departmentId} onChange={onChange} >
+    {departments?.map((department: Department) => {
+        return (
+          <option value={department.id}>{ department.departmentName }</option>
+          )
+      })
+    }
     </Select>
   )
 })
