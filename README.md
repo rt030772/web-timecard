@@ -25,11 +25,9 @@
 
 
 ## 環境構築
-yarn create next-app --typescript
-yarn add @chakra-ui/react @emotion/react@^11 @emotion/styled@^11 framer-motion@^6 @chakra-ui/icons
-yarn dev
+  - git pull git@github.com:rt030772/web-timecard.git
+  - cd web-timecard/frontend && yarn install && yarn dev
 
-dummy
 
 
 ## 使用技術 
@@ -39,6 +37,6 @@ dummy
     - ChakraUI
 
   - Backend
-    - Ruby
-    - Ruby on Rails
-    - PostgreSQL
+    - Java
+    - Spring Boot
+    - MySQL
